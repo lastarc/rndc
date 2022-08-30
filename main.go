@@ -2,24 +2,32 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/rs/xid"
+	"github.com/alecthomas/kong"
 	"github.com/google/uuid"
 )
 
+var cli struct {
+	Xid struct {
+		Info bool `help:"Print details" short:"i"`
+	} `cmd:"" name:"xid" help:"random xid"`
+
+	Uuid struct {
+	} `cmd:"" name:"uuid" help:"random uuid"`
+}
+
 func main() {
-	a := ""
-	if len(os.Args) > 1 {
-		a = os.Args[1]
-	} else {
-		a = "xid"
-	}
-	switch a {
+	ctx := kong.Parse(
+		&cli,
+		kong.Name("rndc"),
+		kong.Description("cli tool for random strings (xid, uuid)"),
+	)
+	switch ctx.Command() {
 	case "xid":
 		guid := xid.New()
 		println(guid.String())
-		if len(os.Args) > 2 && os.Args[2] == "-i" {
+		if cli.Xid.Info {
 			fmt.Printf(
 				"[machine: %x | pid: %d | time: %d | counter: %d]\n",
 				guid.Machine(),
@@ -31,6 +39,6 @@ func main() {
 	case "uuid":
 		println(uuid.New().String())
 	default:
-		panic("Unknown command")
+		panic(ctx.Command())
 	}
 }
