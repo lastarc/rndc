@@ -6,6 +6,7 @@ import (
 	"github.com/alecthomas/kong"
 	"github.com/google/uuid"
 	"github.com/rs/xid"
+	"github.com/thanhpk/randstr"
 )
 
 var cli struct {
@@ -15,13 +16,29 @@ var cli struct {
 
 	Uuid struct {
 	} `cmd:"" name:"uuid" help:"random uuid"`
+
+	Hex struct {
+		Length int `help:"length" short:"l" default:"4"`
+	} `cmd:"" name:"hex" help:"random hex string"`
+
+	Ascii struct {
+		Length int `help:"length" short:"l" default:"8"`
+	} `cmd:"" name:"ascii" help:"random ascii string"`
+
+	Base62 struct {
+		Length int `help:"length" short:"l" default:"8"`
+	} `cmd:"" name:"base62" help:"random base62 string"`
+
+	Base64 struct {
+		Length int `help:"length" short:"l" default:"8"`
+	} `cmd:"" name:"base64" help:"random base64 string"`
 }
 
 func main() {
 	ctx := kong.Parse(
 		&cli,
 		kong.Name("rndc"),
-		kong.Description("cli tool for random strings (xid, uuid)"),
+		kong.Description("cli tool for random strings (xid, uuid, hex, ascii, base62, base64)"),
 	)
 	switch ctx.Command() {
 	case "xid":
@@ -38,6 +55,14 @@ func main() {
 		}
 	case "uuid":
 		println(uuid.New().String())
+	case "hex":
+		println(randstr.Hex(cli.Hex.Length))
+	case "ascii":
+		println(randstr.String(cli.Ascii.Length))
+	case "base62":
+		println(randstr.Base62(cli.Base62.Length))
+	case "base64":
+		println(randstr.Base64(cli.Base64.Length))
 	default:
 		panic(ctx.Command())
 	}
