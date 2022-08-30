@@ -31,7 +31,7 @@ Commands:
 Run "rndc <command> --help" for more information on a command.
 ```
 
-# Building & Installation
+## Building & Installation
 
 ```bash
 # clone the source code
