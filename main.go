@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/rs/xid"
 	"github.com/alecthomas/kong"
 	"github.com/google/uuid"
+	"github.com/rs/xid"
 )
 
 var cli struct {
