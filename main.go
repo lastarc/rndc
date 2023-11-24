@@ -43,7 +43,7 @@ func main() {
 	switch ctx.Command() {
 	case "xid":
 		guid := xid.New()
-		println(guid.String())
+		fmt.Println(guid.String())
 		if cli.Xid.Info {
 			fmt.Printf(
 				"[machine: %x | pid: %d | time: %d | counter: %d]\n",
@@ -54,15 +54,15 @@ func main() {
 			)
 		}
 	case "uuid":
-		println(uuid.New().String())
+		fmt.Println(uuid.New().String())
 	case "hex":
-		println(randstr.Hex(cli.Hex.Length))
+		fmt.Println(randstr.Hex(cli.Hex.Length))
 	case "ascii":
-		println(randstr.String(cli.Ascii.Length))
+		fmt.Println(randstr.String(cli.Ascii.Length))
 	case "base62":
-		println(randstr.Base62(cli.Base62.Length))
+		fmt.Println(randstr.Base62(cli.Base62.Length))
 	case "base64":
-		println(randstr.Base64(cli.Base64.Length))
+		fmt.Println(randstr.Base64(cli.Base64.Length))
 	default:
 		panic(ctx.Command())
 	}
